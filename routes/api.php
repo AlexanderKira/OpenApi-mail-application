@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApplicationApiController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('/applications')->group(function () {
+    Route::get('/index', [ApplicationApiController::class, 'index']);
+    Route::post('/store', [ApplicationApiController::class, 'store']);
+    Route::put('/update/{application}', [ApplicationApiController::class, 'update']);
 });
