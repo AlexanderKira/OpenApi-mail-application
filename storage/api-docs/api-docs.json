@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Application API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/applications/store": {
+            "post": {
+                "tags": [
+                    "Applications"
+                ],
+                "summary": "Сreate an application",
+                "operationId": "d032df79eaeff61dcd5c5a5736be7f03",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Alexander"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "admin@mail.com"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Please respond to my application"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Create an application.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Alexander"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "admin@mail.com"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Please respond to my application"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/applications/index": {
+            "get": {
+                "tags": [
+                    "Applications"
+                ],
+                "summary": "Show all applications or filter by status and date",
+                "operationId": "f411341a3331792623471a23e57a7ec2",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Application status: Active or Resolved",
+                        "required": false,
+                        "example": "active"
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Application start date",
+                        "required": false,
+                        "example": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Application end date",
+                        "required": false,
+                        "example": "2024-12-31"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Filtering by status and date we get a list of applications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "applications": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "10"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Alexander"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "admin@mail.com"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "active"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Please respond to my application"
+                                                },
+                                                "comment": {
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-01-28T15:07:09.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-01-28T15:07:09.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/applications/update/{application}": {
+            "put": {
+                "tags": [
+                    "Applications"
+                ],
+                "summary": "status update and reply to email",
+                "operationId": "a169503cf435e242be6750f688a9bf27",
+                "parameters": [
+                    {
+                        "name": "application",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "comment": {
+                                                "type": "string",
+                                                "example": "Responding to your e-mail request, thank you."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Send an email to the request id.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reply sent"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
