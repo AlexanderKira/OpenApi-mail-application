@@ -72,7 +72,7 @@
                 "tags": [
                     "Applications"
                 ],
-                "summary": "Show all applications or filter by status and date",
+                "summary": "Show all applications or filter by status and date (access_token required).",
                 "operationId": "f411341a3331792623471a23e57a7ec2",
                 "parameters": [
                     {
@@ -146,7 +146,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/applications/update/{application}": {
@@ -154,7 +159,7 @@
                 "tags": [
                     "Applications"
                 ],
-                "summary": "status update and reply to email",
+                "summary": "status update and reply to email (access_token required).",
                 "operationId": "a169503cf435e242be6750f688a9bf27",
                 "parameters": [
                     {
@@ -201,7 +206,70 @@
                             }
                         }
                     }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Applications"
+                ],
+                "summary": "get admin access token(sample).",
+                "operationId": "e8bda97fbe47048fc48cee733c357440",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "example": "admin@admin.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "password"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Сopy the access token into the authorization.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "access_token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
             }
         }
     }

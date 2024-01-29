@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationApiController;
-use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,12 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class,'login']);
+    Route::post('logout', [AuthController::class,'logout']);
+    Route::post('refresh', [AuthController::class,'refresh']);
+    Route::post('me', [AuthController::class,'me']);
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::prefix('/applications')->group(function () {
-    Route::get('/index', [ApplicationApiController::class, 'index']);
     Route::post('/store', [ApplicationApiController::class, 'store']);
-    Route::put('/update/{application}', [ApplicationApiController::class, 'update']);
+    Route::get('/index', [ApplicationApiController::class, 'index'])->middleware("jwt.auth");
+    Route::put('/update/{application}', [ApplicationApiController::class, 'update'])->middleware("jwt.auth");
 });

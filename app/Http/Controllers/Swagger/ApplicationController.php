@@ -39,9 +39,9 @@ use App\Http\Controllers\Controller;
  *
  * @OA\Get(
  *      path="/api/applications/index",
- *      summary="Show all applications or filter by status and date",
+ *      summary="Show all applications or filter by status and date (access_token required).",
  *      tags={"Applications"},
- *
+ *      security={{ "bearerAuth": {} }},
  *
  *     @OA\Parameter(
  *          name="status",
@@ -87,8 +87,9 @@ use App\Http\Controllers\Controller;
  *
  * @OA\Put(
  *       path="/api/applications/update/{application}",
- *       summary="status update and reply to email",
+ *       summary="status update and reply to email (access_token required).",
  *       tags={"Applications"},
+ *       security={{ "bearerAuth": {} }},
  *
  *       @OA\Parameter(
  *           description="ID",
