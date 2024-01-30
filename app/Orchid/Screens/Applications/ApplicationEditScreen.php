@@ -85,7 +85,7 @@ class ApplicationEditScreen extends Screen
         $application->save();
 
         try {
-            $this->applicationService->mailReply($application->email. $application->comment);
+            $this->applicationService->mailReply($application->email, $application->comment);
             Toast::info('Reply sent');
         } catch (\Exception $e) {
             Toast::error('Failed to send email: ' . $e->getMessage());
